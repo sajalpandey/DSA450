@@ -1,0 +1,39 @@
+class Solution {
+public:
+    int partition(vector<int> &nums,int low,int high){
+        int pivot=nums[high];
+        int i=low-1;
+        for(int j=low;j<=high-1;++j){
+            if(nums[j]<pivot)
+                    swap(nums[++i],nums[j]);
+        }
+        
+        swap(nums[++i],nums[high]);
+        return i;
+    }
+    void quickSort(vector<int> & nums,int low,int high){
+        if(low<high){
+            int pi= partition(nums,low,high);
+            quickSort(nums,low,pi-1);
+            quickSort(nums,pi+1,high);
+        }
+    }
+    int smallestRangeII(vector<int>& arr, int k) {
+        int n=arr.size();
+        
+        sort(arr.begin(),arr.end());
+        int ans = arr[n-1]-arr[0];
+        
+        int smallest = arr[0]+k;
+        int largest = arr[n-1]-k;
+        int mi,ma;
+        
+        for(int i = 0; i < n-1; i++){
+            mi = min(smallest,arr[i+1]-k);
+            ma = max(largest,arr[i]+k);
+            //if(mi < 0) continue;
+            ans = min(ans,ma-mi);
+        }
+        return ans;
+    }
+};
